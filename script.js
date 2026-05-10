@@ -1,16 +1,16 @@
-//your JS code here. If required.
 const inputs = document.querySelectorAll(".code");
 
 // focus first input on load
-inputs[0].focus();
+window.addEventListener("load", () => {
+  inputs[0].focus();
+});
 
 inputs.forEach((input, index) => {
-  input.addEventListener("input", () => {
-    const value = input.value;
+  input.addEventListener("input", (e) => {
+    // allow only digits
+    input.value = input.value.replace(/[^0-9]/g, "");
 
-    // allow only single digit
-    input.value = value.replace(/[^0-9]/g, "");
-
+    // move to next input if value exists
     if (input.value && index < inputs.length - 1) {
       inputs[index + 1].focus();
     }
@@ -18,9 +18,12 @@ inputs.forEach((input, index) => {
 
   input.addEventListener("keydown", (e) => {
     if (e.key === "Backspace") {
-      if (input.value === "" && index > 0) {
-        inputs[index - 1].focus();
-        inputs[index - 1].value = "";
+      if (input.value === "") {
+        // move to previous input if exists
+        if (index > 0) {
+          inputs[index - 1].focus();
+          inputs[index - 1].value = "";
+        }
       }
     }
   });
